@@ -39,8 +39,13 @@ Perform the following steps to get started with the coding simulation.
 
 - Install Docker Desktop from https://www.docker.com/products/docker-desktop
 - Clone this repo onto your development machine.
-- Setup your working environment by executing the following commands
 
+If you have Docker version 20.10.14 or higher, please do:
+```
+DockerDesktop > Preferences > General > OFF the checkbox "Use Docker Compose V2"
+```
+
+Setup your working environment by executing the following commands:
 ```
 cd <trax repo directory>
 git submodule update --init --recursive
