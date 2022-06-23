@@ -1,37 +1,36 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import Vue from 'vue';
 
 require('./bootstrap');
-
-window.Vue = require('vue');
 
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueRouter from 'vue-router'
+import App from './App.vue'
+import routes from './routes';
+
+// Components
+import TripsView from './components/partials/TripsView.vue';
+import CarsView from './components/partials/CarsView.vue';
+import CarView from './components/partials/CarView.vue';
+import NewCarView from './components/partials/NewCarView.vue';
+import NewTripView from './components/partials/NewTripView.vue';
 
 Vue.use(VueRouter)
 Vue.use(Vuetify)
 
-Vue.component('trax-root', require('./components/TraxRoot.vue'));
-Vue.component('trips-view', require('./components/partials/TripsView.vue'));
-Vue.component('cars-view', require('./components/partials/CarsView.vue'));
-Vue.component('car-view', require('./components/partials/CarView.vue'));
-Vue.component('new-car-view', require('./components/partials/NewCarView.vue'));
-Vue.component('new-trip-view', require('./components/partials/NewTripView.vue'));
-
+Vue.component('trips-view', TripsView);
+Vue.component('cars-view', CarsView);
+Vue.component('car-view', CarView);
+Vue.component('new-car-view', NewCarView);
+Vue.component('new-trip-view', NewTripView);
 
 // Create Router
-
-require ('./routing-config');
 const router = new VueRouter({
-    routes: routes(Vue) // short for `routes: routes`
+  routes: routes(Vue),
 })
 
-const app = new Vue({
-    router,
-    el: '#app'
+new Vue({
+  el: '#app',
+  router,
+  render: h => h(App),
 });
