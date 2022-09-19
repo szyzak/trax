@@ -30,4 +30,13 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    #region relations
+
+    public function cars(): HasMany
+    {
+        return $this->hasMany(Car::class);
+    }
+
+    #endregion relation
 }
