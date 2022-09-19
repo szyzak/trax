@@ -27,7 +27,7 @@ class TripsController extends Controller
             ->selectSub(
                 DB::table('trips')
                     ->whereRaw('date <= main_trip_date')
-                    ->selectRaw("SUM(miles)")
+                    ->selectRaw("ROUND(SUM(miles), 2)")
             , 'total')
             ->get();
 
