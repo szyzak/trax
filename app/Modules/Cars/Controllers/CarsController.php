@@ -19,6 +19,8 @@ class CarsController extends Controller
     {
         /** @var Car $car */
         $car = Car::findOrFail($carId);
+        $car->trip_count = $car->trips()->count();
+        $car->trip_miles = round($car->trips()->sum('miles'), 2);
 
         return new CarResource($car);
     }
