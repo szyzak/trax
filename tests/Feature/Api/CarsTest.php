@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Modules\Cars\Models\Car;
+use App\Modules\Trips\Models\Trip;
 use Tests\ApiTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -37,6 +38,7 @@ class CarsTest extends ApiTestCase
         // Arrange
         $this->login();
         $car = Car::factory()->create();
+        [$tripOne, $tripTwo] = Trip::factory()->times(2)->create(['car_id' => $car]);
 
         // Act
         $response = $this->get("/api/cars/$car->id");
@@ -44,7 +46,10 @@ class CarsTest extends ApiTestCase
         // Assert
         $response->assertStatus(200);
         $response->assertJson([
-            'data' => $car->only(['id', 'make', 'model', 'year'])
+            'data' => array_merge(
+                $car->only(['id', 'make', 'model', 'year']),
+                ['trip_count' => 2, 'trip_miles' => round($tripOne->miles + $tripTwo->miles, 2)]
+            )
         ]);
     }
 

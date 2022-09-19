@@ -13,6 +13,8 @@ class CarResource extends JsonResource
             'make' => $this->make,
             'model' => $this->model,
             'year' => $this->year,
+            'trip_count' => $this->when(isset($this->trip_count), $this->trip_count),
+            'trip_miles' => $this->when(isset($this->trip_miles), $this->trip_miles),
         ];
     }
 }
