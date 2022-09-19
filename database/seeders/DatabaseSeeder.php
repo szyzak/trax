@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,9 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::factory()->create();
-        auth()->login($user);
-        $this->call(CarsTableSeeder::class);
-        $this->call(TripsTableSeeder::class);
+        if (App::environment('local')) {
+            $user = User::factory()->create([
+                'email' => 'test@example.com',
+                'password' => 'qwerty'
+            ]);
+            auth()->login($user);
+
+            $this->call(CarsTableSeeder::class);
+            $this->call(TripsTableSeeder::class);
+        }
     }
 }
