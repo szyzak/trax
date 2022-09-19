@@ -20,6 +20,10 @@ class Car extends Model
         'year', 'model', 'make'
     ];
 
+    protected $casts = [
+        'year' => 'int'
+    ];
+
     /**
      * The "booted" method of the model.
      *
