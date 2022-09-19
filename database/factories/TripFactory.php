@@ -19,8 +19,6 @@ class TripFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => 1,
-            'car_id' => 1,
             'date' => $this->faker->date(),
             'miles' => $this->faker->randomFloat(2, 0, 50000),
         ];
