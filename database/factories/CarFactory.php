@@ -19,7 +19,6 @@ class CarFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => 1,
             'year' => $this->faker->year(),
             'make' => $this->faker->word,
             'model' => $this->faker->word,

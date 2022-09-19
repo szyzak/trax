@@ -54,8 +54,8 @@ class CarsTest extends ApiTestCase
     public function it_stores_new_car()
     {
         // Arrange
-        $carAttributes = Car::factory()->make()->toArray();
         $this->login();
+        $carAttributes = Car::factory()->make()->toArray();
 
         // Sanity check
         $this->assertDatabaseMissing('cars', $carAttributes);

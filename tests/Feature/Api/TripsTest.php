@@ -18,12 +18,12 @@ class TripsTest extends ApiTestCase
     {
         // Arrange
         $this->login();
-        Car::factory()->create();
+        $car = Car::factory()->create();
         [$tripOne, $tripTwo, $tripThree] = Trip::factory()->times(3)
             ->sequence(
-                ['date' => now()->subDays(3)],
-                ['date' => now()->subDays(2)],
-                ['date' => now()->subDay()],
+                ['date' => now()->subDays(3), 'car_id' => $car->id],
+                ['date' => now()->subDays(2), 'car_id' => $car->id],
+                ['date' => now()->subDay(), 'car_id' => $car->id],
             )
             ->create();
 
@@ -32,6 +32,7 @@ class TripsTest extends ApiTestCase
 
         // Assert
         $response->assertStatus(200);
+
         $response->assertJson([
             'data' => [
                 [
@@ -45,14 +46,14 @@ class TripsTest extends ApiTestCase
                     'id' => $tripTwo->id,
                     'date' => $tripTwo->date->format('m/d/Y'),
                     'miles' => $tripTwo->miles,
-                    'total' => $tripTwo->miles + $tripOne->miles,
+                    'total' => round($tripTwo->miles + $tripOne->miles, 2),
                     'car' => $tripTwo->car->only('id', 'make', 'model', 'year'),
                 ],
                 [
                     'id' => $tripThree->id,
                     'date' => $tripThree->date->format('m/d/Y'),
                     'miles' => $tripThree->miles,
-                    'total' => $tripThree->miles + $tripTwo->miles + $tripOne->miles,
+                    'total' => round($tripThree->miles + $tripTwo->miles + $tripOne->miles, 2),
                     'car' => $tripThree->car->only('id', 'make', 'model', 'year'),
                 ],
             ]
@@ -65,8 +66,9 @@ class TripsTest extends ApiTestCase
     public function it_stores_new_trip()
     {
         // Arrange
-        $tripAttributes = Trip::factory()->make()->toArray();
         $this->login();
+        $car = Car::factory()->create();
+        $tripAttributes = Trip::factory()->make(['car_id' => $car->id])->toArray();
 
         // Sanity check
         $this->assertDatabaseMissing('trips', $tripAttributes);
